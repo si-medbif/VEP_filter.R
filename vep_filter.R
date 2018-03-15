@@ -7,7 +7,7 @@ Filtration SUDS variant from VEP by R
 #2) Import a dataset from snpeff and name it "snpeffdata".
 #3) If candidate gene dataset from VEP skip step 3 and step 4, then step 5 create dataname to data3
 #4) set working directory 
-setwd("...........................")
+setwd("D:/")
 #4)Press the "Source" button on the top right corner of this panel.
 
 

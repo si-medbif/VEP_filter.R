@@ -1,5 +1,8 @@
-# VEP_filter.R
-Filtration SUDS variant from VEP by R
+## 
+## Creator: Mint
+## Filtration SUDS variant from VEP by R
+## Support VEP95.2 , dbSNP 3.5a
+##
 
 ###How to run
 ## !! limitation this script using only the annotation from VEP
@@ -7,8 +10,12 @@ Filtration SUDS variant from VEP by R
 #2) Import a dataset from snpeff and name it "snpeffdata".
 #3) If candidate gene dataset from VEP skip step 3 and step 4, then step 5 create dataname to data3
 #4) set working directory 
-setwd("D:/")
+#setwd("D:/")
 #4)Press the "Source" button on the top right corner of this panel.
+
+# import
+
+vepdata <- read_delim("output.vep.1.hg19", "\t",skip = 342,col_names  = TRUE, escape_double = FALSE, trim_ws = TRUE)
 
 
 ##Method for filtration variant from VEP
@@ -56,12 +63,12 @@ clinsig <-clinsig[which(clinsig$select_clinsig == "TRUE"),]
 #step 7 select column AF 
 afdata <- clinsig
 afdata <- afdata[,grep("AF",names(afdata))]
-drop <- c("1000Gp1_AFR_AC", "ExAC_AFR_AC")
+drop <- c("1000Gp3AFR_AC", "ExAC_AFR_AC")
 afdata <- afdata[,!(names(afdata) %in% drop)]
 col<- c("AF","AFR_AF","AMR_AF","EAS_AF","EUR_AF","SAS_AF","AA_AF","EA_AF","gnomAD_AF","gnomAD_AFR_AF", 
         "gnomAD_AMR_AF",  "gnomAD_ASJ_AF",  "gnomAD_EAS_AF",  "gnomAD_FIN_AF",  "gnomAD_NFE_AF","gnomAD_OTH_AF",
-        "gnomAD_SAS_AF","1000Gp1_AF","1000Gp1_AFR_AF", "1000Gp1_AMR_AF","1000Gp1_ASN_AF", "1000Gp1_EUR_AF",
-        "ARIC5606_AA_AF", "ARIC5606_EA_AF", "ESP6500_AA_AF","ESP6500_EA_AF","ExAC_AF","ExAC_AFR_AF",
+        "gnomAD_SAS_AF","1000Gp3_AF","1000Gp3_AFR_AF", "1000Gp3_AMR_AF", "1000Gp3_EUR_AF","1000Gp3_SAS_AF",
+        "ESP6500_AA_AF","ESP6500_EA_AF","ExAC_AF","ExAC_AFR_AF",
         "ExAC_AMR_AF","ExAC_Adj_AF","ExAC_EAS_AF","ExAC_FIN_AF","ExAC_NFE_AF","ExAC_SAS_AF")
 afdata[col] <- sapply(afdata[col],as.numeric)
 sapply(afdata, class)

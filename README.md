@@ -3,7 +3,7 @@ Variant prioritization algorithm developed by Nutchavadee Vorasan for SUDS proje
 
 VEP annotation was performed using GRCh37 (hg19) annotation 
 
-# VEP_filter.Chunky.R
+# VEP_filter.Chunky.template.R
 
 Editor: K2
 

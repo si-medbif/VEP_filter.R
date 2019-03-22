@@ -1,8 +1,10 @@
 ## 
 ## Creator: K2
+## Script Version: 1
+## Script status: Template
 ## Read file -  chunk by chunk
 ## Support VEP95.2 , dbSNP 3.5a
-##
+## 
 
 
 rbind.match.columns <- function(input1=0, input2=0) {
@@ -27,12 +29,14 @@ rbind.match.columns <- function(input1=0, input2=0) {
   return(rbind(input1[, column.names], input2[, column.names]))
 }
 
-filename <- "output.vep.1.hg19.gz"
+filename <- "b212wgs_annotation_output.vep.chr17.hg19.gz"
 index <- 0
 counter <- 0
 chunks <- 50000
 con = file(filename, "r")
-data_header <- names(read.csv(filename, nrows=1, sep="\t", skip = 342 ,header = TRUE , check.names = FALSE))
+skip_headerLine = 343
+
+data_header <- names(read.csv(filename, nrows=1, sep="\t", skip = skip_headerLine ,header = TRUE , check.names = FALSE))
 ready_to_write <- data.frame(matrix(ncol =  length(data_header), nrow = 0))
 names(ready_to_write) <- data_header
 

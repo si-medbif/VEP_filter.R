@@ -46,7 +46,7 @@ counter = 0
 chunks = 100000
 con = file(filename, "r")
 skip_headerLine = 343
-data_header <- names(read.csv(filename, nrows=1, sep="\t", skip = skip_headerLine ,header = TRUE , check.names = FALSE))
+data_header <- names(read.csv(filename, nrows=1, sep="\t", skip = skip_headerLine ,header = TRUE , check.names = FALSE,quote = ""))
 ready_to_write <- data.frame(matrix(ncol =  length(data_header), nrow = 0))
 names(ready_to_write) <- data_header
 
@@ -112,6 +112,8 @@ repeat{
       
       temp_data #Equivalent to finalMatrix = cbind(finalMatrix, temp_data)
     }
+    ## Cleans all rows with NAs in every columns (Unexpected event) 
+    finalMatrix<-finalMatrix[rowSums(is.na(finalMatrix)) != ncol(finalMatrix), ]
     
     ready_to_write <- rbind.match.columns(ready_to_write, finalMatrix)
     

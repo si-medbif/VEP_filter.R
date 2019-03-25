@@ -64,11 +64,11 @@ repeat{
     finalMatrix <- foreach(i = nrow(vepdata), .combine=cbind) %dopar% {
 
       #Step1 Recode impact variant to numeric and then sort by descending
-      vepdata$sort_impact <- as.integer(ifelse(vepdata$IMPACT=="LOW","1",
-                                               ifelse(vepdata$IMPACT=="MODIFIER","2",
-                                                      ifelse(vepdata$IMPACT=="MODERATE","3",
-                                                             ifelse(vepdata$IMPACT=="HIGH","4","")))))
-      vepdata <- vepdata[order(-vepdata$sort_impact),]
+      # vepdata$sort_impact <- as.integer(ifelse(vepdata$IMPACT=="LOW","1",
+      #                                          ifelse(vepdata$IMPACT=="MODIFIER","2",
+      #                                                 ifelse(vepdata$IMPACT=="MODERATE","3",
+      #                                                        ifelse(vepdata$IMPACT=="HIGH","4","")))))
+      # vepdata <- vepdata[order(-vepdata$sort_impact),]
 
       filterimpact <- vepdata[which(vepdata$IMPACT %in% c("HIGH","MODERATE")),]
 

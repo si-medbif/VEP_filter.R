@@ -75,15 +75,15 @@ repeat{
 
       #Step 2  Filter Clinical significance("CLIN_SIG")
       ## If CLIN_SIG reported benign and likely benign,then exclude them from dataset
-      uncertain <- grepl("uncer", filterimpact$CLIN_SIG) #find "uncertain_significance"
-      notpro <- grepl("pro", filterimpact$CLIN_SIG)  #find "not_provided"
-      benign <- grepl("ben", filterimpact$CLIN_SIG)  #find "benign or likely_benign"
-      patho <- grepl("patho", filterimpact$CLIN_SIG) #find "pathogenic or likely_pathogenic"
-      na <- grepl("-", filterimpact$CLIN_SIG) #find "-"
-      select_clinsig = patho|((uncertain|na)&!notpro&!benign) #logical statement to filter out benign and likely benign
-      clinsig<- cbind.data.frame(filterimpact, select_clinsig)
-      clinsig <-clinsig[which(clinsig$select_clinsig == "TRUE"),]
-
+#      uncertain <- grepl("uncer", filterimpact$CLIN_SIG) #find "uncertain_significance"
+#      notpro <- grepl("pro", filterimpact$CLIN_SIG)  #find "not_provided"
+#      benign <- grepl("ben", filterimpact$CLIN_SIG)  #find "benign or likely_benign"
+#      patho <- grepl("patho", filterimpact$CLIN_SIG) #find "pathogenic or likely_pathogenic"
+#      na <- grepl("-", filterimpact$CLIN_SIG) #find "-"
+#      select_clinsig = patho|((uncertain|na)&!notpro&!benign) #logical statement to filter out benign and likely benign
+       clinsig <- filterimpact[!grepl("2|3",filterimpact$clinvar_clnsig),]
+       ## known pathogenic variants from clinvar
+       clinvar_pathogenic <- vepdata[grepl("4|5",vepdata$clinvar_clnsig) & !grepl("2|3",vepdata$clinvar_clnsig),]
 
       #Step 3 Filter by MetaSVM (D = Deleterious, T = Tolerable) on MODERATE Impact records
       ## If MetaSVM reported T, exclude it from data

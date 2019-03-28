@@ -57,7 +57,7 @@ system.time(
 repeat{
 
   tryCatch({
-    vepdata <-read.table(con, nrows=chunks, header=FALSE, fill = FALSE, sep="\t",comment.char = "#" , check.names = FALSE ,quote = "" )
+    vepdata <-read.table(con, nrows=chunks, header=FALSE, fill = FALSE, sep="\t",comment.char = "#" , check.names = FALSE ,quote = "",as.is = TRUE )
     # do processing on dataChunk (i.e adding header, converting data type)
 
     colnames(vepdata) <- data_header
@@ -91,8 +91,9 @@ repeat{
       # Covert CADD_phred to numeric
       clinsig$CADD_phred <- as.numeric(as.character(clinsig$CADD_phred))
       # Keep all (MetaSVM == "D" or "-") AND (CADD Phred Scale >= 15)
-      temp_data <- clinsig[ !(clinsig$IMPACT == "MODERATE" & (clinsig$CADD_phred < 15)  )  , ]
-      temp_data <- temp_data[ !(temp_data$IMPACT == "MODERATE" & (temp_data$MetaSVM_pred == "T")  )  , ]
+      temp_data <- clinsig[ !(clinsig$IMPACT == "MODERATE" & (clinsig$CADD_phred < 15 | clinsig$MetaSVM_pred == "T")  )  , ]
+      #temp_data <- clinsig[ !(clinsig$IMPACT == "MODERATE" & (clinsig$CADD_phred < 15)  )  , ]
+      #temp_data <- temp_data[ !(temp_data$IMPACT == "MODERATE" & (temp_data$MetaSVM_pred == "T")  )  , ]
 
       #step 4 Filter out common variants
       #select column AF
@@ -110,7 +111,8 @@ repeat{
       mafdata <- temp_data[which(apply(as.data.frame(afdata), 1,all)),]
 
 
-      temp_data #Equivalent to finalMatrix = cbind(finalMatrix, temp_data)
+      temp_data <- rbind(clinvar_pathogenic,mafdata) # combined known_pathogenic + prioritized variants.
+
     }
 
     ready_to_write <- rbind.match.columns(ready_to_write, finalMatrix)
